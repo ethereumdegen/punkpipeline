@@ -1,0 +1,27 @@
+{
+  "name": "punkpipeline",
+  "version": "0.0.1",
+  "description": "A data aggeragator for an Ethereum smartcontract ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/admazzola/punkpipeline.git"
+  },
+  "dependencies": {
+    "chai": "^4.1.0",
+      "web3": "^0.19.1",
+    "mocha": "^3.4.2"
+  },
+  "keywords": [
+    "ethereum"
+  ],
+  "author": "admazzola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/admazzola/punkpipeline/issues"
+  },
+  "homepage": "https://github.com/admazzola/punkpipeline#readme"
+}
