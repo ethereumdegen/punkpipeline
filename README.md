@@ -1,0 +1,1 @@
+geth --fast --rpc

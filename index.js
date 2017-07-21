@@ -60,13 +60,23 @@ if (typeof web3 !== 'undefined') {
     //     web3.eth.contract(abi).new({data: code}, function (err, c) {
 
 
+
+
       console.log('loading contract')
 
         var PunkContract = web3.eth.contract(contract_abi);
         var contractInstance = PunkContract.at('0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB');
 
-        console.log('contract instance ')
-        console.log(contractInstance)
+
+
+                console.log('contract instance ')
+                console.log(contractInstance)
+
+
+        var x = contractInstance.nextPunkIndexToAssign.call('');
+        console.log(x)
+
+
 
 
         /*var assignEvent = contractInstance.Assign({some: 'args'}, {fromBlock: 0, toBlock: 'latest'});
@@ -86,13 +96,18 @@ if (typeof web3 !== 'undefined') {
 
            // watch for an event with {some: 'args'}
           var events = contractInstance.allEvents({fromBlock: 0, toBlock: 'latest'});
-          events.watch(function(error, result){
+
+          var transferPunkEvent = contractInstance.PunkTransfer({fromBlock: 0, toBlock: 'latest'});
+
+
+
+        events.watch(function(error, result){
             if(error)
             {
                  console.error(error)
             }
                console.log(result)
-          });
+          })
 
           // would get all past logs again.
           events.get(function(error, logs){
@@ -103,6 +118,13 @@ if (typeof web3 !== 'undefined') {
              console.log(logs)
            });
 
+          /* contractInstance.PunkTransfer({}, { fromBlock: 0, toBlock: 'latest' }).get((error, eventResult) => {
+             if (error)
+               console.log('Error in myEvent event handler: ' + error);
+             else
+               console.log('myEvent: ' + JSON.stringify(eventResult.args));
+           });
+           */
 
 
         /*  web3.eth.contract(abi).new({}, function (err, c) {
