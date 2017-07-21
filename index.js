@@ -13,7 +13,11 @@ if (typeof web3 !== 'undefined') {
 
  function init()
  {
-    readABIFile()
+
+    initJSONRPCServer();
+
+    //readABIFile();
+
  }
 
  function readABIFile()
@@ -38,7 +42,16 @@ if (typeof web3 !== 'undefined') {
       //  console.log('contract_abi')
         //console.log(contract_abi)
 
-        loadContract(contract_abi)
+        try
+        {
+          loadContract(contract_abi);
+        }
+        catch(e)
+        {
+          console.error(e);
+        }
+
+
 
    });
 
@@ -73,8 +86,17 @@ if (typeof web3 !== 'undefined') {
                 console.log(contractInstance)
 
 
-        var x = contractInstance.nextPunkIndexToAssign.call('');
-        console.log(x)
+        try
+        {
+          var x = contractInstance.nextPunkIndexToAssign.call('');
+          console.log(x)
+        }
+        catch(e)
+        {
+          console.error(e);
+        }
+
+
 
 
 
@@ -155,6 +177,22 @@ if (typeof web3 !== 'undefined') {
      };
 
 
+     function initJSONRPCServer()
+     {
+
+       var jayson = require('jayson');
+
+       console.log('listening on JSONRPC server localhost:4040')
+         // create a server
+         var server = jayson.server({
+           add: function(args, callback) {
+             callback(null, args[0] + args[1]);
+           }
+         });
+
+         server.http().listen(4040);
+
+     }
 
 
-     readABIFile();
+    init();
