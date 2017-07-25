@@ -64,6 +64,8 @@ if (typeof web3 !== 'undefined') {
 
       console.log('loading contract')
 
+      //block number 3914495
+
         var PunkContract = web3.eth.contract(contract_abi);
         var contractInstance = PunkContract.at('0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB');
 
@@ -115,7 +117,7 @@ if (typeof web3 !== 'undefined') {
             {
                  console.error(error)
             }
-             console.log(logs)
+             console.log(JSON.stringify(logs.args))
            });
 
           /* contractInstance.PunkTransfer({}, { fromBlock: 0, toBlock: 'latest' }).get((error, eventResult) => {
