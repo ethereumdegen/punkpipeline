@@ -151,23 +151,23 @@ if (typeof web3 !== 'undefined') {
 
             var punkOwners={}
 
-           var contractEventOne = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: 'latest'});
+           var contractEventAssign = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: 'latest'});
            console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
-           contractEventOne.watch(function(error, result){
+           contractEventAssign.watch(function(error, result){
 
-                  console.log(JSON.stringify(result))
+              console.log(JSON.stringify(result))
 
                var punk_id = result.args.punkIndex;
                var owner_address = result.args.to;
                punkOwners[punk_id] = owner_address;
 
-                console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
+              console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
 
            });
 
 
 
-         
+
 
           // would get all past logs again.
       /*    events.get(function(error, logs){
