@@ -118,13 +118,15 @@ if (typeof web3 !== 'undefined') {
            });*/
 
 
-           var eventreg = contractInstance.RegisterCandidate( {_candidateName: "Assign"}, {fromBlock: 0, toBlock: 'latest'});
+           web3.eth.getBlock(48, function(error, result){
+               if(!error)
+                   console.log(result)
+               else
+                   console.error(error);
+           })
 
-               eventreg.watch(function(error, response)
-               {
-                  //once the event has been detected, take actions as desired
-                   var data = 'from: ' + response.args._from+"<br>candidateName: "+web3.toUtf8(response.args._candidateName) +"<br>";
-               });
+
+
 
 
 
