@@ -1,3 +1,6 @@
+
+//https://ethereum.stackexchange.com/questions/4452/how-do-i-retrieve-the-voted-events-from-thedao
+
 console.log('init');
 
 fs = require('fs');
@@ -8,7 +11,7 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
   // set the provider you want from Web3.providers
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 }
 
  function init()
@@ -85,7 +88,7 @@ if (typeof web3 !== 'undefined') {
 
 
                 console.log('contract instance ')
-                console.log(contractInstance)
+            //    console.log(contractInstance)
 
 
         try
@@ -99,6 +102,17 @@ if (typeof web3 !== 'undefined') {
         }
 
 
+
+        var filter = web3.eth.filter({ address: ["0xc4af56cd5254aef959d4bce2f75874007808b701"], fromBlock: 2615848, toBlock: "latest" });
+
+
+
+        console.log('watch 1')
+        var i = 0;
+        filter.watch(function (error, result) {
+          console.log("RESULT: Filter " + i++ + ": " + JSON.stringify(result));
+        });
+        filter.stopWatching();
 
 
 
@@ -129,39 +143,55 @@ if (typeof web3 !== 'undefined') {
 
 
 
+           var theDAOABIFragment = [{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"CreatedToken","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_amount","type":"uint256"}],"name":"Transfer","type":"event"}];
+           var theDAOAddress = "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413";
+           var theDAOStartingBlock = 1428757;
+           var theDAO = web3.eth.contract(theDAOABIFragment).at(theDAOAddress);
+           var theDAOCreatedTokenEvent = theDAO.CreatedToken({}, {fromBlock: theDAOStartingBlock, toBlock: theDAOStartingBlock + 2000});
+           console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
+           theDAOCreatedTokenEvent.watch(function(error, result){
+             console.log(result.address + "\t" + result.args.amount / 1e16 + "\t" + result.args.to + "\t" +
+               result.blockHash + "\t" + result.blockNumber + "\t" + result.event + "\t" + result.logIndex + "\t" +
+               result.transactionHash + "\t" + result.transactionIndex);
+
+           });
+
+
 
 
            // watch for an event with {some: 'args'}
-          var events = contractInstance.allEvents({fromBlock: 0, toBlock: 'latest'});
+          var events = contractInstance.allEvents({},{fromBlock: 0, toBlock: 'latest'});
 
           var transferPunkEvent = contractInstance.PunkTransfer({fromBlock: 0, toBlock: 'latest'});
 
 
-          var assignEvent = contractInstance.Assign();
+          var assignEvent = contractInstance.Assign({fromBlock: 0, toBlock: 'latest'});
 
 
               console.log('watch contract  ')
 
+          //    console.log('watch contract  ')
 
-        assignEvent.watch(function(error, result){
+
+        events.get(function(error, result){
             if(error)
             {
                  console.error(error)
             }
-               console.log(JSON.stringify(result.args))
+               console.log(JSON.stringify(result))
           })
 
 
               console.log('get contract  ')
 
           // would get all past logs again.
-          events.get(function(error, logs){
+      /*    events.get(function(error, logs){
             if(error)
             {
                  console.error(error)
             }
              console.log(JSON.stringify(logs.args))
-           });
+           });*/
 
           /* contractInstance.PunkTransfer({}, { fromBlock: 0, toBlock: 'latest' }).get((error, eventResult) => {
              if (error)
