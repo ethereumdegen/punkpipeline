@@ -149,41 +149,25 @@ if (typeof web3 !== 'undefined') {
 
             var punkContractBlock = 3914495;
 
+            var punkOwners={}
+
            var contractEventOne = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: 'latest'});
            console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
            contractEventOne.watch(function(error, result){
-             console.log(result.address + "\t" + result.args.amount / 1e16 + "\t" + result.args.to + "\t" +
-               result.blockHash + "\t" + result.blockNumber + "\t" + result.event + "\t" + result.logIndex + "\t" +
-               result.transactionHash + "\t" + result.transactionIndex);
+
+                  console.log(JSON.stringify(result))
+
+               var punk_id = result.args.punkIndex;
+               var owner_address = result.args.to;
+               punkOwners[punk_id] = owner_address;
+
+                console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
 
            });
 
 
 
-           // watch for an event with {some: 'args'}
-          var events = contractInstance.allEvents({},{fromBlock: 0, toBlock: 'latest'});
-
-          var transferPunkEvent = contractInstance.PunkTransfer({fromBlock: 0, toBlock: 'latest'});
-
-
-          var assignEvent = contractInstance.Assign({fromBlock: 0, toBlock: 'latest'});
-
-
-              console.log('watch contract  ')
-
-          //    console.log('watch contract  ')
-
-
-        events.get(function(error, result){
-            if(error)
-            {
-                 console.error(error)
-            }
-               console.log(JSON.stringify(result))
-          })
-
-
-              console.log('get contract  ')
+         
 
           // would get all past logs again.
       /*    events.get(function(error, logs){
