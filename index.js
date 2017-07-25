@@ -118,13 +118,14 @@ if (typeof web3 !== 'undefined') {
            });*/
 
 
+      /* -- this work s
            web3.eth.getBlock(48, function(error, result){
                if(!error)
                    console.log(result)
                else
                    console.error(error);
            })
-
+           */
 
 
 
@@ -136,15 +137,18 @@ if (typeof web3 !== 'undefined') {
           var transferPunkEvent = contractInstance.PunkTransfer({fromBlock: 0, toBlock: 'latest'});
 
 
+          var assignEvent = contractInstance.Assign();
+
+
               console.log('watch contract  ')
 
 
-        events.watch(function(error, result){
+        assignEvent.watch(function(error, result){
             if(error)
             {
                  console.error(error)
             }
-               console.log(JSON.stringify(result))
+               console.log(JSON.stringify(result.args))
           })
 
 
