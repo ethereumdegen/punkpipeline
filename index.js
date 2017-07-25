@@ -103,17 +103,6 @@ if (typeof web3 !== 'undefined') {
 
 
 
-        var filter = web3.eth.filter({ address: ["0xc4af56cd5254aef959d4bce2f75874007808b701"], fromBlock: 2615848, toBlock: "latest" });
-
-
-
-        console.log('watch 1')
-        var i = 0;
-        filter.watch(function (error, result) {
-          console.log("RESULT: Filter " + i++ + ": " + JSON.stringify(result));
-        });
-        filter.stopWatching();
-
 
 
 
@@ -142,7 +131,7 @@ if (typeof web3 !== 'undefined') {
            */
 
 
-
+/*
            var theDAOABIFragment = [{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"CreatedToken","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_amount","type":"uint256"}],"name":"Transfer","type":"event"}];
            var theDAOAddress = "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413";
            var theDAOStartingBlock = 1428757;
@@ -156,6 +145,18 @@ if (typeof web3 !== 'undefined') {
 
            });
 
+*/
+
+            var punkContractBlock = 3914495;
+
+           var contractEventOne = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: 'latest'});
+           console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
+           contractEventOne.watch(function(error, result){
+             console.log(result.address + "\t" + result.args.amount / 1e16 + "\t" + result.args.to + "\t" +
+               result.blockHash + "\t" + result.blockNumber + "\t" + result.event + "\t" + result.logIndex + "\t" +
+               result.transactionHash + "\t" + result.transactionIndex);
+
+           });
 
 
 
