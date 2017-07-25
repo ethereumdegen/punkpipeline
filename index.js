@@ -16,7 +16,7 @@ if (typeof web3 !== 'undefined') {
 
     initJSONRPCServer();
 
-    //readABIFile();
+    readABIFile();
 
  }
 
