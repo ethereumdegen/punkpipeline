@@ -124,14 +124,19 @@ if (typeof web3 !== 'undefined') {
           var transferPunkEvent = contractInstance.PunkTransfer({fromBlock: 0, toBlock: 'latest'});
 
 
+              console.log('watch contract  ')
+
 
         events.watch(function(error, result){
             if(error)
             {
                  console.error(error)
             }
-               console.log(result)
+               console.log(JSON.stringify(result))
           })
+
+
+              console.log('get contract  ')
 
           // would get all past logs again.
           events.get(function(error, logs){
