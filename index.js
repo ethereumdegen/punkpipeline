@@ -151,7 +151,7 @@ if (typeof web3 !== 'undefined') {
 
             var punkOwners={}
 
-           var contractEventAssign = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: 'latest'});
+           var contractEventAssign = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: punkContractBlock+100000});
            console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
            contractEventAssign.watch(function(error, result){
 
