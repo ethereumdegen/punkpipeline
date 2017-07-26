@@ -20,6 +20,23 @@ var punkOwnersCollected = false;
  function init()
  {
 
+   //read from file if exists
+
+
+   fs.readFile('./punkownerdata.json', 'utf8', function (err,data) {
+     if (err) {
+       return console.log('error reading existing punk file' + err);
+     }
+
+     punkOwners = JSON.parse(data);
+     punkOwnersCollected = true;
+     console.log('loaded cached punk data')
+
+   });
+
+
+
+
     initJSONRPCServer();
 
     readABIFile();
@@ -85,10 +102,10 @@ var punkOwnersCollected = false;
 
 
         var punk_id = 0;
-        try
-        {
+
           for(punk_id=0;punk_id<10000;punk_id++)
           {
+          
             var owner_address = contractInstance.punkIndexToAddress.call(punk_id);
             punkOwners[punk_id] = owner_address;
             console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
@@ -96,13 +113,12 @@ var punkOwnersCollected = false;
           }
 
 
-        }
-        catch(e)
-        {
-          console.error(e);
-        }
+
 
         punkOwnersCollected = true;
+
+        //save to file
+        fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8');
 
         console.log('Completed collection of punk owners.')
 
