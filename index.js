@@ -96,32 +96,48 @@ var punkOwnersCollected = false;
 
 
 
-                console.log('contract instance ')
-            //    console.log(contractInstance)
 
-
-
+        let number_of_punks_found = 0;
         var punk_id = 0;
 
           for(punk_id=0;punk_id<10000;punk_id++)
           {
-          
-            var owner_address = contractInstance.punkIndexToAddress.call(punk_id);
-            punkOwners[punk_id] = owner_address;
-            console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
+
+            let temp_punk_id = punk_id;
+              var punks = contractInstance.punkIndexToAddress(punk_id, function(err, res){
+                  console.log(temp_punk_id);
+                  console.log(res);
+
+                  punkOwners[temp_punk_id] = res;
+                  number_of_punks_found++;
+
+                    console.log(number_of_punks_found)
+              });
+
 
           }
 
 
+          function checkAllPunksRead() {
+            if(number_of_punks_found < 10000) {
+               setTimeout(checkAllPunksRead, 1000);
+            } else {
+
+                console.log('collected all punks ')
+              punkOwnersCollected = true;
+
+              //save to file
+              fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8');
+
+              console.log('Completed collection of punk owners.')
 
 
-        punkOwnersCollected = true;
 
-        //save to file
-        fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8');
+            }
+        }
 
-        console.log('Completed collection of punk owners.')
 
+        checkAllPunksRead();
 
 
 
