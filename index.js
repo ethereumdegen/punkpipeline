@@ -14,8 +14,12 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 }
 
-var punkOwners={}
+let punkOwners={}
 var punkOwnersCollected = false;
+
+
+        let number_of_punks_found = 0;
+        let poll_punk_id = 0;
 
  function init()
  {
@@ -28,7 +32,15 @@ var punkOwnersCollected = false;
        return console.log('error reading existing punk file' + err);
      }
 
-     punkOwners = JSON.parse(data);
+     try {
+    //   punkOwners = JSON.parse(data);
+
+     } catch (e) {
+        console.error('could not load existing punk data')
+     } finally {
+
+     }
+
      punkOwnersCollected = true;
      console.log('loaded cached punk data')
 
@@ -91,53 +103,60 @@ var punkOwnersCollected = false;
 
       //block number 3914495
 
-        var PunkContract = web3.eth.contract(contract_abi);
-        var contractInstance = PunkContract.at('0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB');
 
 
 
 
-        let number_of_punks_found = 0;
-        var punk_id = 0;
-
+/*
           for(punk_id=0;punk_id<10000;punk_id++)
           {
+              let temp_punk_id = punk_id;
 
-            let temp_punk_id = punk_id;
               var punks = contractInstance.punkIndexToAddress(punk_id, function(err, res){
+
+
+                if(temp_punk_id == 33 || temp_punk_id == 65)
+                {
+                    console.log('temp_punk_id');
                   console.log(temp_punk_id);
                   console.log(res);
 
                   punkOwners[temp_punk_id] = res;
                   number_of_punks_found++;
 
-                    console.log(number_of_punks_found)
+                  console.log('number_of_punks_found');
+                  console.log(number_of_punks_found)
+
+                  console.log(punkOwners[33])
+                }
+
+
               });
 
 
           }
+          */
 
 
-          function checkAllPunksRead() {
-            if(number_of_punks_found < 10000) {
-               setTimeout(checkAllPunksRead, 1000);
-            } else {
-
-                console.log('collected all punks ')
-              punkOwnersCollected = true;
-
-              //save to file
-              fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8');
-
-              console.log('Completed collection of punk owners.')
+          var PunkContract = web3.eth.contract(contract_abi);
+          var contractInstance = PunkContract.at('0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB');
 
 
 
-            }
-        }
+          var punks = contractInstance.punkIndexToAddress(33, function(err, res){
 
 
-        checkAllPunksRead();
+
+                console.log('temp_punk_id X');
+              console.log(33);
+              console.log(res);
+
+
+
+          });
+
+
+        pollAllPunks(contractInstance);
 
 
 
@@ -180,6 +199,73 @@ var punkOwnersCollected = false;
          contract.inc();
      };
 
+
+     function pollNextPunk(contractInstance, callback)
+     {
+
+         console.log('meeepo')
+
+       let temp_punk_id = number_of_punks_found;
+
+       var punks = contractInstance.punkIndexToAddress(temp_punk_id, function(err, res){
+
+
+
+             console.log('temp_punk_id');
+           console.log(temp_punk_id);
+           console.log(res);
+
+           punkOwners[temp_punk_id] = res;
+           number_of_punks_found++;
+
+           console.log('number_of_punks_found');
+           console.log(number_of_punks_found)
+
+          // console.log(punkOwners[33])
+
+
+           callback();
+
+
+       });
+
+     }
+
+     function pollAllPunks(contractInstance ) {
+
+
+
+
+       if(number_of_punks_found < 10000) {
+
+
+          pollNextPunk(contractInstance, function(){pollAllPunks(contractInstance)} );
+
+          //  setTimeout(pollAllPunks(contractInstance), 10);
+
+       } else {
+
+           console.log('collected all punks ')
+
+           console.log(punkOwners[43])
+
+           punkOwnersCollected = true;
+
+         //save to file
+         fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8', function(error,written,buffer){
+           console.log('Completed collection of punk owners.')
+
+
+
+           //wait and then poll all punks again !
+
+         });
+
+
+
+
+       }
+   }
 
      function initJSONRPCServer()
      {
