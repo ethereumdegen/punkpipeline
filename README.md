@@ -14,12 +14,14 @@ You will need a Geth instance open which this bot will communicate with. Do this
  
       node index.js 
     
+    
+## Reading the data from the pipeline from any programming language
+
 Acquire the contract token data using JSONRPC in any language. The JSONRPC calls are as follows:
 
     1. getPunkOwner(punk_id_int): returns eth_address_string
       
-
-### Example ruby code that pulls data from the pipeline bot using the ruby JSONRPC client lib named 'Jimson'
+ Example ruby code that pulls data from the pipeline bot using the ruby JSONRPC client lib named 'Jimson'
 
       def import_punk_data
          client = Jimson::Client.new("localhost:4040") # the URL for the JSON-RPC 2.0 server to connect to
