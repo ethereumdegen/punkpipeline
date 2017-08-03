@@ -18,8 +18,7 @@ let punkOwners={}
 var punkOwnersCollected = false;
 
 
-        let number_of_punks_found = 0;
-        let poll_punk_id = 0;
+let number_of_punks_found = 0;
 
  function init()
  {
@@ -156,7 +155,10 @@ var punkOwnersCollected = false;
           });
 
 
-        pollAllPunks(contractInstance);
+        let tempPunkOwners = {}
+
+
+        pollAllPunks(contractInstance,tempPunkOwners);
 
 
 
@@ -200,10 +202,19 @@ var punkOwnersCollected = false;
      };
 
 
-     function pollNextPunk(contractInstance, callback)
+     function clone(obj) {
+        if (null == obj || "object" != typeof obj) return obj;
+        var copy = obj.constructor();
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+
+
+     function pollNextPunk(contractInstance, tempPunkOwners, callback)
      {
 
-         console.log('meeepo')
 
        let temp_punk_id = number_of_punks_found;
 
@@ -211,15 +222,15 @@ var punkOwnersCollected = false;
 
 
 
-             console.log('temp_punk_id');
-           console.log(temp_punk_id);
-           console.log(res);
 
-           punkOwners[temp_punk_id] = res;
+
+           tempPunkOwners[temp_punk_id] = res;
            number_of_punks_found++;
 
            console.log('number_of_punks_found');
            console.log(number_of_punks_found)
+
+
 
           // console.log(punkOwners[33])
 
@@ -231,15 +242,14 @@ var punkOwnersCollected = false;
 
      }
 
-     function pollAllPunks(contractInstance ) {
-
+     function pollAllPunks(contractInstance, tempPunkOwners ) {
 
 
 
        if(number_of_punks_found < 10000) {
 
 
-          pollNextPunk(contractInstance, function(){pollAllPunks(contractInstance)} );
+          pollNextPunk(contractInstance, tempPunkOwners, function(){pollAllPunks(contractInstance, tempPunkOwners)} );
 
           //  setTimeout(pollAllPunks(contractInstance), 10);
 
@@ -251,12 +261,14 @@ var punkOwnersCollected = false;
 
            punkOwnersCollected = true;
 
+          punkOwners = clone(tempPunkOwners);
+
          //save to file
          fs.writeFile('./punkownerdata.json', JSON.stringify(punkOwners, null, 2) , 'utf-8', function(error,written,buffer){
            console.log('Completed collection of punk owners.')
 
 
-
+           resetAndRestartPunkCollection(contractInstance);
            //wait and then poll all punks again !
 
          });
@@ -265,6 +277,14 @@ var punkOwnersCollected = false;
 
 
        }
+   }
+
+
+   function resetAndRestartPunkCollection(contractInstance)
+   {
+     number_of_punks_found = 0;
+     tempPunkOwners = {};
+     pollAllPunks(contractInstance,tempPunkOwners);
    }
 
      function initJSONRPCServer()
