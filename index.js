@@ -88,15 +88,9 @@ let number_of_punks_found = 0;
  }
 
 
-     var inc;
-     var update = function (err, x) {
-         document.getElementById('result').textContent = JSON.stringify(x, null, 2);
-     };
-
+  
      var readPunkOwnersFromContract = function (contract_abi) {
-         // let's assume that we have a private key to coinbase ;)
-
-
+        
 
       console.log('loading contract')
 
@@ -253,18 +247,7 @@ let number_of_punks_found = 0;
 
 
 
-
-     var counter = 0;
-     var callContract = function () {
-         counter++;
-         var all = 70 + counter;
-         document.getElementById('count').innerText = 'Transaction sent ' + counter + ' times. ' +
-             'Expected x value is: ' + (all - (all % 2 ? 0 : 1)) + ' ' +
-             'Waiting for the blocks to be mined...';
-
-         contract.inc();
-     };
-
+ 
 
 
     init();
