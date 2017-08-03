@@ -29,8 +29,8 @@ Acquire the contract token data using JSONRPC in any language (python, ruby, go,
           p 'client launched '
 
          (0..10000).each do |punk_id 
-           result = client.getPunkOwner(punk_id) # call the 'sum' method on the RPC server and save the result '3'
+           result = client.getPunkOwner(punk_id) 
            p punk_id
-           p result           
+           p result   #prints out the ethereum public address of each punk owner           
          end 
        end
