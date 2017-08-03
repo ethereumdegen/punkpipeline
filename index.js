@@ -103,38 +103,7 @@ let number_of_punks_found = 0;
       //block number 3914495
 
 
-
-
-
-/*
-          for(punk_id=0;punk_id<10000;punk_id++)
-          {
-              let temp_punk_id = punk_id;
-
-              var punks = contractInstance.punkIndexToAddress(punk_id, function(err, res){
-
-
-                if(temp_punk_id == 33 || temp_punk_id == 65)
-                {
-                    console.log('temp_punk_id');
-                  console.log(temp_punk_id);
-                  console.log(res);
-
-                  punkOwners[temp_punk_id] = res;
-                  number_of_punks_found++;
-
-                  console.log('number_of_punks_found');
-                  console.log(number_of_punks_found)
-
-                  console.log(punkOwners[33])
-                }
-
-
-              });
-
-
-          }
-          */
+ 
 
 
           var PunkContract = web3.eth.contract(contract_abi);
@@ -160,46 +129,12 @@ let number_of_punks_found = 0;
 
         pollAllPunks(contractInstance,tempPunkOwners);
 
-
-
-
-
-            var punkContractBlock = 3914495;
-/*
-            var punkOwners={}
-
-           var contractEventAssign = contractInstance.Assign({}, {fromBlock: punkContractBlock, toBlock: punkContractBlock+100000});
-           console.log("address\tamount\tto\tblockHash\tblockNumber\tevent\tlogIndex\ttransactionHash\ttransactionIndex");
-           contractEventAssign.watch(function(error, result){
-
-              console.log(JSON.stringify(result))
-
-               var punk_id = result.args.punkIndex;
-               var owner_address = result.args.to;
-               punkOwners[punk_id] = owner_address;
-
-              console.log('owner of punk' + punk_id.toString() + ' is ' +  owner_address.toString() )
-
-           });
-
-*/
-
-
+ 
 
 
      };
 
 
-     var counter = 0;
-     var callContract = function () {
-         counter++;
-         var all = 70 + counter;
-         document.getElementById('count').innerText = 'Transaction sent ' + counter + ' times. ' +
-             'Expected x value is: ' + (all - (all % 2 ? 0 : 1)) + ' ' +
-             'Waiting for the blocks to be mined...';
-
-         contract.inc();
-     };
 
 
      function clone(obj) {
@@ -314,6 +249,22 @@ let number_of_punks_found = 0;
          server.http().listen(4040);
 
      }
+
+
+
+
+
+     var counter = 0;
+     var callContract = function () {
+         counter++;
+         var all = 70 + counter;
+         document.getElementById('count').innerText = 'Transaction sent ' + counter + ' times. ' +
+             'Expected x value is: ' + (all - (all % 2 ? 0 : 1)) + ' ' +
+             'Waiting for the blocks to be mined...';
+
+         contract.inc();
+     };
+
 
 
     init();
