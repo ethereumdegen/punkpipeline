@@ -28,7 +28,7 @@ Acquire the contract token data using JSONRPC in any language (python, ruby, go,
 
           p 'client launched '
 
-         (0..10000).each do |punk_id 
+         (0..10000).each do |punk_id|
            result = client.getPunkOwner(punk_id) 
            p punk_id
            p result   #prints out the ethereum public address of each punk owner           
