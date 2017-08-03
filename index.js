@@ -32,7 +32,7 @@ let number_of_punks_found = 0;
      }
 
      try {
-    //   punkOwners = JSON.parse(data);
+       punkOwners = JSON.parse(data);
 
      } catch (e) {
         console.error('could not load existing punk data')
