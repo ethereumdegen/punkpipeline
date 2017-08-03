@@ -15,9 +15,9 @@ You will need a Geth instance open which this bot will communicate with. Do this
       node index.js 
     
     
-## Reading the data from the pipeline from any programming language
+## Reading the data from the pipeline using any programming language
 
-Acquire the contract token data using JSONRPC in any language. The JSONRPC calls are as follows:
+Acquire the contract token data using JSONRPC in any language (python, ruby, go, etc...). The JSONRPC calls are as follows:
 
     1. getPunkOwner(punk_id_int): returns eth_address_string
       
