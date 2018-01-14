@@ -59,7 +59,7 @@ let number_of_punks_found = 0;
 
 
    path = require('path');
-    filePath = path.join(__dirname, 'contracts/CryptoPunksMarket.abi');
+   filePath = path.join(__dirname, 'contracts/CryptoPunksMarket.abi');
 
 
 
